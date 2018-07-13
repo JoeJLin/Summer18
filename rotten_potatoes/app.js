@@ -40,7 +40,7 @@ app.use(function(err, req, res, next) {
 });
 
 const mongoose = require('mongoose');
-const mongoURI = 'mongodb://admin:admin21@ds127781.mlab.com:27781/r0tten-p0tat0es'; // NO PARENTHESES
+const mongoURI = process.env.DB_Path; // NO PARENTHESES
 
 // connect our app with our database
 mongoose.connect(mongoURI)
