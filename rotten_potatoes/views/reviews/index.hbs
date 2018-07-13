@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col">
+        <h1 class="page-title">Reviews</h1>
+    </div>
+</div>
+
+<div class="row">
+     {{#each reviews}}
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card review">
+                <div class="card-header text-muted">
+                    <span class="badge badge-rating">{{this.rating}}</span> {{this.movieName}}
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title">{{this.title}}</h4>
+                    <p class="card-text">{{this.body}}</p>
+                
+                    <a class="card-link" href="/reviews/{{this.id}}">Read More</a>
+                </div>
+            </div>
+        </div>
+    {{/each}}
+</div>
+
+

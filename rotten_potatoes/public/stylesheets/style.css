@@ -1,0 +1,40 @@
+body {
+  /* padding: 50px; */
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+.page-title {
+  margin: 60px 0 35px;
+}
+
+.review {
+  margin-bottom: 15px;
+}
+
+.review .card-title,
+.review .card-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.review .badge {
+  vertical-align: text-bottom;
+}
+
+.badge-rating {
+  background-color: #FFD68C;
+  color: #656152;
+}
+
+.review-breadcrumb {
+  margin: 45px 0 35px;
+}
+
+.custom-bar{
+  margin-bottom: 15px;
+}

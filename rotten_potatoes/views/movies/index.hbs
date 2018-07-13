@@ -1,0 +1,14 @@
+<div class="row">
+    {{#each movies}}
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card review text-center">
+            <img src="{{image}}" alt="Card image cap" width="113px" style="margin:5px auto">
+            <div class="card-body">
+                <h5 class="card-title">{{name}}</h5>
+                <p class="card-text">{{summary}}</p>
+                <a href="/movies/{{this.id}}" class="btn btn-primary">Read More</a>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</div>
