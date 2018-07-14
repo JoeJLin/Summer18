@@ -3,9 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
+require('dotenv').config()
+
 
 var app = express();// app = the instance of express app
 
@@ -40,7 +41,7 @@ app.use(function(err, req, res, next) {
 });
 
 const mongoose = require('mongoose');
-const mongoURI = process.env.DB_Path; // NO PARENTHESES
+const mongoURI = process.env.DB_PATH; // NO PARENTHESES
 
 // connect our app with our database
 mongoose.connect(mongoURI)

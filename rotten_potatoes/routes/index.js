@@ -6,42 +6,44 @@ const cron = require('cron');
 const Review = require('../models/review');
 const Movie = require('../models/movie');
 
-const checkMovie = new cron.CronJob ({
-  //it will trigger every 5 minutes
-  cronTime: '*/20 * * * * *',
+
+
+const checkMovie = new cron.CronJob({
+  //it will trigger every 20 minutes
+  cronTime: '* */20 * * * *',
   onTick: function () {
 
-  const url = "https://itunes.apple.com/us/rss/topmovies/limit=25/json";
-  request.get(url, (err, response, body) => {
-    if(err) {
-      console.log(err)
-    }
-    body = JSON.parse(body);
+    const url = "https://itunes.apple.com/us/rss/topmovies/limit=25/json";
+    request.get(url, (err, response, body) => {
+      if (err) {
+        console.log(err)
+      }
+      body = JSON.parse(body);
 
-    const movies = [];
-    const postBody = [];
-    //loop through the api body
-    body.feed.entry.forEach(function(data){
-      postBody.push(data);
+      Movie.collection.drop();
 
-      movies.push(new Movie({
-        name: data['im:name'].label,
-        image: data['im:image'][2].label,
-        summary: data.summary.label,
-        title: data.title.label,
-        duration: data.link[1]['im:duration'].label,
-        category: data.category.attributes.label,
-      }).save(function(err) {
-        // if (err) console.log(data['im:name'].label + ' --- Error or already saved');
-        if (err) console.log(err);
-        else { console.log('SUCCESSFUL')}
-      }));
+      const movies = [];
+      //loop through the api body
+      body.feed.entry.forEach(function (data) {
+
+        movies.push(new Movie({
+          name: data['im:name'].label,
+          image: data['im:image'][2].label,
+          summary: data.summary.label,
+          title: data.title.label,
+          duration: data.link[1]['im:duration'].label,
+          category: data.category.attributes.label,
+        }).save(function (err) {
+          // if (err) console.log(data['im:name'].label + ' --- Error or already saved');
+          if (err) console.log(err);
+          else { console.log('SUCCESSFUL') }
+        }));
+      });
     });
-  });
 
   }
 });
- 
+
 checkMovie.start();
 
 
@@ -57,6 +59,8 @@ router.get('/', (req, res) => {
     //   // console.log()
     //   console.log('error!!')
     // })
+
+
   Movie.find({}, (err, movies) => {
     if(err) {console.log(err) }
     res.render('movies/', { movies: movies });
@@ -117,5 +121,8 @@ router.get('/movies/:id', (req, res) =>{
     res.render('movies/show', {movie})
   })
 })
+
+// Helper Function
+
 
 module.exports = router;

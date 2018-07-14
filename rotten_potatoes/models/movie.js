@@ -17,6 +17,7 @@ MovieSchema.pre('save', function(next) {
         else if (result) {
             // console.log('movie name already exists');
             return next(new Error(result.name + 'movie name must be unique or already exists'));
+
         } else {
             return next();
         }
