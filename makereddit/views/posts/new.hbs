@@ -1,0 +1,19 @@
+<div>
+    <form action="/rooms/{{room.id}}/posts" method="post">
+        <legend>New Post</legend>
+
+        <div class="form-group">
+            <label for="posts-subject">Subject</label>
+            <input type="text" name="subject" class="form-control" id="posts-subject">
+        </div>
+        
+        <div class="form-group">
+            <label for="posts-body">Body</label>
+            <input type="text" name="body" class="form-control" id="posts-body">
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </form>
+</div>
