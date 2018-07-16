@@ -43,18 +43,6 @@ UserSchema.statics.authenticate = function (username, password, next) {
     });
 }
 
-UserSchema.statics.findUser = (username, next) => {
-  User.findOne({ username : username }, (err, user) => {
-    if(err) {
-      return next(err)
-    } else if (!user) {
-      console.log('Username available')
-    } else {
-      console.log('User exists');
-    }
-  });
-}
-
 const User = mongoose.model('User', UserSchema);
 
 module.exports = User;

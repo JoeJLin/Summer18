@@ -6,6 +6,8 @@ const auth = require('./helpers/auth');
 const Room = require('../models/room');
 const postRouter = require('./posts');
 const Post = require('../models/post');
+const User = require('../models/user');
+
 
 router.use('/:roomId/posts', postRouter);
 
@@ -54,32 +56,44 @@ router.post('/:id', auth.requireLogin, (req, res, next) => {
 // post an action in rooms/new.hbs
 router.post('/', auth.requireLogin, (req, res, next) => {
     // assign room to what we got back from the req.body
-    let room = new Room(req.body);
+    console.log(req.body)
+    let room = new Room({
+        topic: req.body.topic,
+        postBy: req.session.userId,
+    });
 
     // save it to the database
     room.save(function(err, room) {
         if(err) { console.log(err) };
+        console.log(room)
         // redirect to rooms which will display a whole list of topics
         return res.redirect('/rooms');
     });
+    // User.findById(req.session.userId, (err, userId) => {
+    //     if (err) { console.log(err) }
+    //     console.log(userId)
+    // })
 });
 
 // go to a specific topic page which will display topics and posts
 router.get('/:id', auth.requireLogin, (req, res, next) => {
-    Room.findById(req.params.id, function (err, room) {
+    //reference postBy to User in room which will find it data by the id
+    Room.findById(req.params.id).populate('postBy').exec(function (err, room) {
         if (err) { console.error(err) };
+        // console.log(room.postBy.username);
         // .populate == Population is the process of automatically replacing the 
         //specified paths in the document with document(s) from other collection(s)
         // Post.find the id of the room and also find comments
-        Post.find({ room: room }).populate('comments').exec(function (err, posts) {
-            if (err) { console.error(err) };
+        Post.find({ room: room })
+            .populate('comments')
+            .exec(function (err, posts) {
+                if (err) { console.error(err) };
 
-            // sort posts
-            posts = posts.sort({points: -1 });
-            // posts = posts.sort((post1, post2) => { return post2.points - post1.points})
-
-            res.render('rooms/show', { room, posts });
-        });
+                // sort posts
+                posts = posts.sort({ points: -1 });
+                // posts = posts.sort((post1, post2) => { return post2.points - post1.points})
+                res.render('rooms/show', { room, posts });
+            });
     });
 });
 

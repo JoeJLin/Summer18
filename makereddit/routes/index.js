@@ -39,11 +39,9 @@ router.post('/login', (req, res, next) => {
     }
     /* eslint-disable-next-line no-underscore-dangle */
     req.session.userId = user._id;
-
     return res.redirect('/');
   });
   // console.log('logging in!');
-  // console.log(req.body);
 });
 
 
